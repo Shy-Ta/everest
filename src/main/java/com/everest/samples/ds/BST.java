@@ -327,7 +327,49 @@ public class BST <T extends Comparable<T>> implements Iterable<T>
       return Math.max(len1, len2);
    }
 
-
+/**
+ * ROOT TO LEAF SUM BINARY TREE
+ * boolean rootToLeafSum(Node root, int sum, List<Integer> result {
+ * 	if(root == null) {return false;}
+ *  if(root.left==null && root.right==null {//leaf node
+ *  if(root.data ==sum) {
+ *  result.add(root.data);
+ *  return true;
+ *  } else {return false;}
+ *  if(rootToLeafSum(root.left, sum-root.data, result) {
+ *  result.add(root.data);
+ *  return true;
+ *  }
+ *  if(rootToLeafSum(root.right, sum-root.data, result) {
+ *  result.add(root.data);
+ *  return true;
+ *  }
+ *  return false;
+ * }
+ * 
+ *     
+ *   public TreeNode sortedArrayToBST(int[] nums) {
+        
+       return helper(nums, 0, nums.length - 1);
+    }
+    
+    private TreeNode helper(int[] nums, int low, int high) {
+        if(low > high) {
+            return null;
+        }
+        
+        int mid = low + (high - low)/2;
+        //center val of sorted array as the root of the bst
+        TreeNode head = new TreeNode(nums[mid]);
+        
+        //left of the mid value should go to the left of this root node to satisfy bst
+        head.left = helper(nums, low, mid - 1);
+        //right of the mid value should go to the right of this root node to satisfy bst
+        head.right = helper(nums, mid + 1, high);
+        return head;
+        
+    }
+ */
 /*****************************************************
 *
 *            TREE ITERATOR

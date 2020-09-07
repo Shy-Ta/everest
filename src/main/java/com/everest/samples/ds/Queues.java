@@ -2,6 +2,7 @@ package com.everest.samples.ds;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.everest.samples.ds.Iterators.NonRemovableIterator;
@@ -131,16 +132,55 @@ public class Queues {
 			return getClass().getSimpleName();
 		}
 	}
+	
+	static class BlockingQueue<E> extends LinkedQueue<E> {
+		private final int capacity;
+		
+		public BlockingQueue (int capacity) {
+			this.capacity = capacity;
+		}
+		
+		@Override
+		public synchronized void enqueue(E item) {
+			while(isFull()) {
+				try {
+					wait();
+				} catch (InterruptedException ie) {
+					return;
+				}
+			}
+			super.enqueue(item);
+			notifyAll();
+		}
+		
+		@Override
+		public synchronized E dequeue() {
+			while(isEmpty()) {
+				try {
+					wait();
+				} catch (InterruptedException ie) {
+					return null;
+				}
+			}
+			E element = super.dequeue();
+			notifyAll();
+			return element;
+		}
+		
+		boolean isFull() {
+			return this.capacity >= size();
+		}
+	}
 
-	public static <E> IQueue<E> createArrayQueue(E... elements) {
+	public static <E> IQueue<E> createArrayQueue(List<E> elements) {
 		return populateElements(new ArrayQueue<E>(), elements);
 	}
 	
-	public static <E> IQueue<E> createLinkedQueue(E... elements) {
+	public static <E> IQueue<E> createLinkedQueue(List<E> elements) {
 		return populateElements(new LinkedQueue<E>(), elements);
 	}
 	
-	static <E> IQueue<E> populateElements(IQueue<E> queue, E... elements) {
+	static <E> IQueue<E> populateElements(IQueue<E> queue, List<E> elements) {
 		for (E e : elements) {
 			queue.enqueue(e);
 		}
@@ -148,7 +188,7 @@ public class Queues {
 	}
 	
 	public static void main(String[] args) {
-		Integer[] elements = {1, 3, 5, 7, 9};
+		List<Integer> elements = Arrays.asList(1, 3, 5, 7, 9);
 		System.out.println(createArrayQueue(elements));
 		System.out.println(createLinkedQueue(elements));
 	}

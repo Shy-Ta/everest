@@ -56,7 +56,7 @@ public class Trees {
 
 		private void preOrderTraversal(BNode<E> node) {
 			if (node != null) {
-				System.out.println(node.element);
+				System.out.print(node.element + " ");
 				preOrderTraversal(node.left);
 				preOrderTraversal(node.right);
 			}
@@ -65,7 +65,7 @@ public class Trees {
 		private void inOrderTraversal(BNode<E> node) {
 			if (node != null) {
 				inOrderTraversal(node.left);
-				System.out.println(node.element);
+				System.out.print(node.element + " ");
 				inOrderTraversal(node.right);
 			}
 		}
@@ -74,7 +74,7 @@ public class Trees {
 			if (node != null) {
 				postOrderTraversal(node.left);
 				postOrderTraversal(node.right);
-				System.out.println(node.element);
+				System.out.print(node.element + " ");
 			}
 		}
 	}
@@ -87,19 +87,24 @@ public class Trees {
 		return tree;
 	}
 
-	
-	/**       1
-	 *   2         3       
-	 * 4   5     6   7
+	/**
+	 * 
+	 *     4
+	 *   2   5
+	 *  1 3   6
+	 *         7
 	 */
 	public static void main(String[] args) {
-		Integer[] elements = {1, 2, 3, 4, 5, 6, 7};
+		Integer[] elements = {4, 2, 5, 1, 6, 3, 7};
 		BinaryTree<Integer> tree = create(elements);
-		System.out.println("PreOrder :");
+		System.out.print("PreOrder : ");
 		tree.preOrderTraversal();
-		System.out.println("InOrder  :");
+		System.out.println();
+		System.out.print("InOrder  : ");
 		tree.inOrderTraversal();
-		System.out.println("PostOrder:");
+		System.out.println();
+		System.out.print("PostOrder: ");
 		tree.postOrderTraversal();
+		System.out.println();
 	}
 }
